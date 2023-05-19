@@ -34,4 +34,32 @@ public record Cordinate(int x, int y) {
 
         return newCord;
     }
+
+    @Nullable public Cordinate leftDiagonalUp() {
+        var newCord = new Cordinate(x-1, y-1);
+        if (newCord.isOutSideMap()) return null;
+
+        return newCord;
+    }
+
+    @Nullable public Cordinate leftDiagonalDown() {
+        var newCord = new Cordinate(x+1, y-1);
+        if (newCord.isOutSideMap()) return null;
+
+        return newCord;
+    }
+
+    @Nullable public Cordinate rightDiagonalUp() {
+        var newCord = new Cordinate(x-1, y+1);
+        if (newCord.isOutSideMap()) return null;
+
+        return newCord;
+    }
+
+    @Nullable public Cordinate rightDiagonalDown() {
+        var newCord = new Cordinate(x+1, y+1);
+        if (newCord.isOutSideMap()) return null;
+
+        return newCord;
+    }
 }

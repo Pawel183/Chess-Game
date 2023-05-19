@@ -13,28 +13,54 @@ public class Pawn extends Piece {
         super(cordinate, color, icon);
     }
 
-    private int startX_WHITE = 6;
-
     @Override
     public List<Cordinate> GetLegalMoves(Board board) {
 
         var moves = new ArrayList<Cordinate>();
 
-        if (getColor() == PieceColor.White && getCordinate().x() == startX_WHITE && board.getPlayerColor() == PieceColor.White) {
+        int startX_WHITE = 6;
+        if (getColor() == PieceColor.White && getCordinate().x() == startX_WHITE) {
             var up = getCordinate().up();
             if (up != null) {
                 moves.add(up);
                 moves.add(up.up());
             }
         }
+        int startX_BLACK = 1;
+        if (getColor() == PieceColor.Black && getCordinate().x() == startX_BLACK) {
+            var down = getCordinate().down();
+            if (down != null) {
+                moves.add(down);
+                moves.add(down.down());
+            }
+        }
+
         else if (getColor() == PieceColor.White){
             var up = getCordinate().up();
-            if (up != null) moves.add(up);
+            if (up != null)
+                moves.add(up);
+
+            var leftDiagonalUp = getCordinate().leftDiagonalUp();
+            if (leftDiagonalUp != null && board.getPiece(leftDiagonalUp) != null && board.getPiece(leftDiagonalUp).getColor() == PieceColor.Black)
+                moves.add(leftDiagonalUp);
+
+            var rightDiagonalUp = getCordinate().leftDiagonalUp();
+            if (rightDiagonalUp != null && board.getPiece(rightDiagonalUp) != null && board.getPiece(rightDiagonalUp).getColor() == PieceColor.Black)
+                moves.add(rightDiagonalUp);
         }
         else
         {
             var down = getCordinate().down();
-            if (down != null) moves.add(down);
+            if (down != null)
+                moves.add(down);
+
+            var leftDiagonalDown = getCordinate().leftDiagonalDown();
+            if (leftDiagonalDown != null && board.getPiece(leftDiagonalDown) != null && board.getPiece(leftDiagonalDown).getColor() == PieceColor.White)
+                moves.add(leftDiagonalDown);
+
+            var rightDiagonalDown = getCordinate().rightDiagonalDown();
+            if (rightDiagonalDown != null && board.getPiece(rightDiagonalDown) != null && board.getPiece(rightDiagonalDown).getColor() == PieceColor.White)
+                moves.add(rightDiagonalDown);
         }
 
         return moves;

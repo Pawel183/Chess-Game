@@ -15,6 +15,63 @@ public class Bishop extends Piece{
 
     @Override
     public List<Cordinate> GetLegalMoves(Board board) {
-        return new ArrayList<>();
+        var moves = new ArrayList<Cordinate>();
+
+        var newCord = getCordinate().leftDiagonalUp();
+        while (newCord != null)
+        {
+            var currentPiece = board.getPiece(newCord);
+            if (currentPiece != null) {
+                if (currentPiece.getColor() == getColor()) break;
+                moves.add(newCord);
+                break;
+            }
+
+            moves.add(newCord);
+            newCord = newCord.leftDiagonalUp();
+        }
+
+        newCord = getCordinate().rightDiagonalUp();
+        while (newCord != null)
+        {
+            var currentPiece = board.getPiece(newCord);
+            if (currentPiece != null) {
+                if (currentPiece.getColor() == getColor()) break;
+                moves.add(newCord);
+                break;
+            }
+
+            moves.add(newCord);
+            newCord = newCord.rightDiagonalUp();
+        }
+
+        newCord = getCordinate().leftDiagonalDown();
+        while (newCord != null)
+        {
+            var currentPiece = board.getPiece(newCord);
+            if (currentPiece != null) {
+                if (currentPiece.getColor() == getColor()) break;
+                moves.add(newCord);
+                break;
+            }
+
+            moves.add(newCord);
+            newCord = newCord.leftDiagonalDown();
+        }
+
+        newCord = getCordinate().rightDiagonalDown();
+        while (newCord != null)
+        {
+            var currentPiece = board.getPiece(newCord);
+            if (currentPiece != null) {
+                if (currentPiece.getColor() == getColor()) break;
+                moves.add(newCord);
+                break;
+            }
+
+            moves.add(newCord);
+            newCord = newCord.rightDiagonalDown();
+        }
+        return moves;
     }
 }

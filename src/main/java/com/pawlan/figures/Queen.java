@@ -14,6 +14,119 @@ public class Queen extends Piece {
 
     @Override
     public List<Cordinate> GetLegalMoves(Board board) {
-        return new ArrayList<>();
+        var moves = new ArrayList<Cordinate>();
+
+        var newCord = getCordinate().left();
+        while (newCord != null)
+        {
+            var currentPiece = board.getPiece(newCord);
+            if (currentPiece != null) {
+                if (currentPiece.getColor() == getColor()) break;
+                moves.add(newCord);
+                break;
+            }
+
+            moves.add(newCord);
+            newCord = newCord.left();
+        }
+
+        newCord = getCordinate().right();
+        while (newCord != null)
+        {
+            var currentPiece = board.getPiece(newCord);
+            if (currentPiece != null) {
+                if (currentPiece.getColor() == getColor()) break;
+                moves.add(newCord);
+                break;
+            }
+
+            moves.add(newCord);
+            newCord = newCord.right();
+        }
+
+        newCord = getCordinate().up();
+        while (newCord != null)
+        {
+            var currentPiece = board.getPiece(newCord);
+            if (currentPiece != null) {
+                if (currentPiece.getColor() == getColor()) break;
+                moves.add(newCord);
+                break;
+            }
+
+            moves.add(newCord);
+            newCord = newCord.up();
+        }
+
+        newCord = getCordinate().down();
+        while (newCord != null)
+        {
+            var currentPiece = board.getPiece(newCord);
+            if (currentPiece != null) {
+                if (currentPiece.getColor() == getColor()) break;
+                moves.add(newCord);
+                break;
+            }
+
+            moves.add(newCord);
+            newCord = newCord.down();
+        }
+
+        newCord = getCordinate().leftDiagonalUp();
+        while (newCord != null)
+        {
+            var currentPiece = board.getPiece(newCord);
+            if (currentPiece != null) {
+                if (currentPiece.getColor() == getColor()) break;
+                moves.add(newCord);
+                break;
+            }
+
+            moves.add(newCord);
+            newCord = newCord.leftDiagonalUp();
+        }
+
+        newCord = getCordinate().rightDiagonalUp();
+        while (newCord != null)
+        {
+            var currentPiece = board.getPiece(newCord);
+            if (currentPiece != null) {
+                if (currentPiece.getColor() == getColor()) break;
+                moves.add(newCord);
+                break;
+            }
+
+            moves.add(newCord);
+            newCord = newCord.rightDiagonalUp();
+        }
+
+        newCord = getCordinate().leftDiagonalDown();
+        while (newCord != null)
+        {
+            var currentPiece = board.getPiece(newCord);
+            if (currentPiece != null) {
+                if (currentPiece.getColor() == getColor()) break;
+                moves.add(newCord);
+                break;
+            }
+
+            moves.add(newCord);
+            newCord = newCord.leftDiagonalDown();
+        }
+
+        newCord = getCordinate().rightDiagonalDown();
+        while (newCord != null)
+        {
+            var currentPiece = board.getPiece(newCord);
+            if (currentPiece != null) {
+                if (currentPiece.getColor() == getColor()) break;
+                moves.add(newCord);
+                break;
+            }
+
+            moves.add(newCord);
+            newCord = newCord.rightDiagonalDown();
+        }
+        return moves;
     }
 }

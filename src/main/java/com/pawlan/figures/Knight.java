@@ -15,6 +15,44 @@ public class Knight extends Piece{
 
     @Override
     public List<Cordinate> GetLegalMoves(Board board) {
-        return new ArrayList<>();
+        var moves = new ArrayList<Cordinate>();
+
+        var knightMovesCords = new ArrayList<Cordinate>();
+
+        var up = getCordinate().up();
+        if (up != null) {
+            knightMovesCords.add(up.leftDiagonalUp());
+            knightMovesCords.add(up.rightDiagonalUp());
+        }
+
+        var left = getCordinate().left();
+        if (left != null) {
+            knightMovesCords.add(left.leftDiagonalUp());
+            knightMovesCords.add(left.leftDiagonalDown());
+        }
+
+        var right = getCordinate().right();
+        if (right != null) {
+            knightMovesCords.add(right.rightDiagonalUp());
+            knightMovesCords.add(right.rightDiagonalDown());
+        }
+
+        var down = getCordinate().down();
+        if (down != null) {
+            knightMovesCords.add(down.leftDiagonalDown());
+            knightMovesCords.add(down.rightDiagonalDown());
+        }
+
+        for (Cordinate knightMove : knightMovesCords) {
+            if (knightMove != null) {
+                var currentPiece = board.getPiece(knightMove);
+                if (currentPiece == null || currentPiece.getColor() != getColor()) {
+                    moves.add(knightMove);
+                }
+            }
+        }
+
+        return moves;
     }
+
 }
