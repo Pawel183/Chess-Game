@@ -15,8 +15,21 @@ public class Board {
     @Nullable private Piece selectedPiece = null;
     private List<Cordinate> legalMoves = new ArrayList<>();
 
+    private PieceColor playerColor = PieceColor.White;
+
     public Board() {
         this.initBoard();
+    }
+
+    public PieceColor getPlayerColor() {
+        return playerColor;
+    }
+
+    public void switchPlayer() {
+        if (playerColor == PieceColor.White)
+            playerColor = PieceColor.Black;
+        else
+            playerColor = PieceColor.White;
     }
 
     @Nullable
@@ -43,12 +56,24 @@ public class Board {
     {
         var piece = getPiece(cordinate);
 
-        if (piece == null && pieceIsSelected()){
+        if (piece != null && piece.getColor() != playerColor) {         // Kliknięcie nie na swój kolor figury
+            legalMoves.clear();
+            selectPiece(null);
+            return;
+        }
+
+        if (piece != null && pieceIsSelected() && piece.getColor() == playerColor) {        // Kliknięcie drugi razy z rzędu na swoj kolor figury
+            legalMoves.clear();
+            selectPiece(null);
+        }
+
+        if (piece == null && pieceIsSelected()){        // Ruszenie figury
             movePiece(cordinate);
+            switchPlayer();
             legalMoves.clear();
         }
 
-        if (piece != null && !pieceIsSelected()) {
+        if (piece != null && !pieceIsSelected()) {      // Pierwsze kliknięcie na swój kolor figury
             selectPiece(piece);
             legalMoves = piece.GetLegalMoves(this);
         }
@@ -58,7 +83,9 @@ public class Board {
         selectedPiece = piece;
     }
 
-    public boolean pieceIsSelected() { return selectedPiece != null;}
+    public boolean pieceIsSelected() {
+        return selectedPiece != null;
+    }
 
     public void initBoard() {
         Pieces.put(new Cordinate(0, 0), new Rook(new Cordinate(0, 0), PieceColor.Black, Assets.blackRook));

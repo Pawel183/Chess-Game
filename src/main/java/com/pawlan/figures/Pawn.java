@@ -13,13 +13,21 @@ public class Pawn extends Piece {
         super(cordinate, color, icon);
     }
 
+    private int startX_WHITE = 6;
+
     @Override
     public List<Cordinate> GetLegalMoves(Board board) {
 
         var moves = new ArrayList<Cordinate>();
 
-        if (getColor() == PieceColor.White)
-        {
+        if (getColor() == PieceColor.White && getCordinate().x() == startX_WHITE && board.getPlayerColor() == PieceColor.White) {
+            var up = getCordinate().up();
+            if (up != null) {
+                moves.add(up);
+                moves.add(up.up());
+            }
+        }
+        else if (getColor() == PieceColor.White){
             var up = getCordinate().up();
             if (up != null) moves.add(up);
         }
