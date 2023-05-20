@@ -21,10 +21,6 @@ public class Board {
         this.initBoard();
     }
 
-    public PieceColor getPlayerColor() {
-        return playerColor;
-    }
-
     public void switchPlayer() {
         if (playerColor == PieceColor.White)
             playerColor = PieceColor.Black;
@@ -56,9 +52,21 @@ public class Board {
     {
         var piece = getPiece(cordinate);
 
-        if (piece != null && piece.getColor() != playerColor) {         // Kliknięcie nie na swój kolor figury
+        if (piece != null && piece.getColor() != playerColor && selectedPiece == null) {     // Kliknięcie nie na swój kolor figury
             legalMoves.clear();
             selectPiece(null);
+        }
+
+        if (piece != null && piece.getColor() != playerColor && selectedPiece != null && !legalMoves.contains(cordinate)) {     // Próba ataku na nielegalny ruch
+            legalMoves.clear();
+            selectPiece(null);
+        }
+
+        if (piece != null && piece.getColor() != playerColor && selectedPiece != null && legalMoves.contains(cordinate)) {       // Atak przeciwnej figury
+            attack(selectedPiece, piece);
+            legalMoves.clear();
+            selectPiece(null);
+            switchPlayer();
             return;
         }
 
@@ -67,13 +75,23 @@ public class Board {
             selectPiece(null);
         }
 
-        if (piece == null && pieceIsSelected()){        // Ruszenie figury
+        if (piece == null && pieceIsSelected() && !legalMoves.contains(cordinate)) {        // Zły wybór legalnego ruchu
+            legalMoves.clear();
+            selectPiece(null);
+            return;
+        }
+
+        if (piece == null && pieceIsSelected() && legalMoves.contains(cordinate)){        // Ruszenie figury
+            for (var legalmove : legalMoves) {
+                System.out.println(legalmove);
+            }
+            System.out.println("\n" + cordinate);
             movePiece(cordinate);
             switchPlayer();
             legalMoves.clear();
         }
 
-        if (piece != null && !pieceIsSelected()) {      // Pierwsze kliknięcie na swój kolor figury
+        if (piece != null && !pieceIsSelected() && piece.getColor() == playerColor) {      // Pierwsze kliknięcie na swój kolor figury
             selectPiece(piece);
             legalMoves = piece.GetLegalMoves(this);
         }
@@ -85,6 +103,15 @@ public class Board {
 
     public boolean pieceIsSelected() {
         return selectedPiece != null;
+    }
+
+    public void attack(Piece attacker, Piece target){
+        var targetCordinate = target.getCordinate();
+
+        Pieces.remove(attacker.getCordinate());
+        attacker.setCordinate(targetCordinate);
+        Pieces.put(targetCordinate, attacker);
+        Pieces.remove(target);
     }
 
     public void initBoard() {

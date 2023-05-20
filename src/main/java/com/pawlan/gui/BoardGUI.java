@@ -22,7 +22,7 @@ public class BoardGUI extends JFrame implements ActionListener {
 //    char[] alphabet = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
     char[] alphabet = {'0', '1', '2', '3', '4', '5', '6', '7'};
 
-    BoardGUI(String playerOne, String playerTwo, Double time) {
+    public BoardGUI(String playerOne, String playerTwo, Double time) {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(screenWidth, screenHeight);
         this.setLayout(null);
@@ -71,7 +71,7 @@ public class BoardGUI extends JFrame implements ActionListener {
 
     public void clearMap()
     {
-        System.out.println("Clear");
+        //System.out.println("Clear");
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 boardsButtons[i][j].setIcon(null);
@@ -80,7 +80,7 @@ public class BoardGUI extends JFrame implements ActionListener {
     }
 
     public void drawPieces() {
-        System.out.println("Draw Pieces");
+        //System.out.println("Draw Pieces");
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
                 var cord = new Cordinate(x, y);
@@ -97,7 +97,7 @@ public class BoardGUI extends JFrame implements ActionListener {
     public void drawLegalMoves()
     {
         for (Cordinate cordinate : board.getLegalMoves()) {
-            boardsButtons[cordinate.x()][cordinate.y()].setBackground(new Color(124, 111, 68, 255));
+            boardsButtons[cordinate.x()][cordinate.y()].setBackground(new Color(238, 211, 147, 255));
         }
     }
 
