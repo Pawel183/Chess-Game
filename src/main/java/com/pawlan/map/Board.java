@@ -3,8 +3,10 @@ package com.pawlan.map;
 import com.pawlan.Assets;
 import com.pawlan.common.Cordinate;
 import com.pawlan.figures.*;
+import com.pawlan.gui.BoardGUI;
 import org.jetbrains.annotations.Nullable;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +36,28 @@ public class Board {
             return null;
 
         return Pieces.get(cordinate);
+    }
+
+    public int isKingDead(){
+        int whiteKing = 0;
+        int blackKing = 0;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                var piece = getPiece(new Cordinate(i,j));
+
+                if (piece != null && piece.isKing() && piece.getColor() == PieceColor.White) {
+                    whiteKing = 1;
+                } else if (piece != null && piece.isKing() && piece.getColor() == PieceColor.Black) {
+                    blackKing = 1;
+                }
+            }
+        }
+        if (whiteKing != 1)
+            return 2;
+        else if (blackKing != 1)
+            return 1;
+        else
+            return 0;
     }
 
     public void movePiece(Cordinate target)

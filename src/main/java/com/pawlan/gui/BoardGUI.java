@@ -15,6 +15,7 @@ public class BoardGUI extends JFrame implements ActionListener {
     static final int screenHeight = 1000;
     public JButton[][] boardsButtons = new JButton[8][8];
     public JPanel chessBoard = new JPanel();
+    public static JOptionPane endGameInfo = new JOptionPane();
     JLabel playerOneLabel = new JLabel();
     JLabel playerOneTimeLabel = new JLabel();
     JLabel playerTwoLabel = new JLabel();
@@ -41,8 +42,13 @@ public class BoardGUI extends JFrame implements ActionListener {
         this.add(playerTwoLabel);
         this.add(playerOneTimeLabel);
         this.add(playerTwoTimeLabel);
+        this.add(endGameInfo);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+    }
+
+    public static void endGame(String winner){
+        JOptionPane.showMessageDialog(null, "Koniec gry. " + winner + " wygrywa!", "Koniec", JOptionPane.INFORMATION_MESSAGE);
     }
 
     @Override
@@ -67,6 +73,13 @@ public class BoardGUI extends JFrame implements ActionListener {
         setDefaultColor();
         drawPieces();
         drawLegalMoves();
+        if (board.isKingDead() == 1) {
+            BoardGUI.endGame("Bialy");
+            this.dispose();
+        } else if (board.isKingDead() == 2) {
+            BoardGUI.endGame("Czarny");
+            this.dispose();
+        }
     }
 
     public void clearMap()

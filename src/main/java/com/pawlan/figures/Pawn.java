@@ -31,14 +31,14 @@ public class Pawn extends Piece {
             if (getCordinate().y() != 0) {
                 var leftDiagonal = getCordinate().leftDiagonalUp();
                 assert leftDiagonal != null;
-                if (board.getPiece(leftDiagonal) != null)
+                if (board.getPiece(leftDiagonal) != null && board.getPiece(leftDiagonal).getColor() != PieceColor.White)
                     moves.add(leftDiagonal);
             }
 
             if (getCordinate().y() != 7) {
                 var rightDiagonal = getCordinate().rightDiagonalUp();
                 assert rightDiagonal != null;
-                if (board.getPiece(rightDiagonal) != null)
+                if (board.getPiece(rightDiagonal) != null && board.getPiece(rightDiagonal).getColor() != PieceColor.White)
                     moves.add(rightDiagonal);
             }
         }
@@ -52,14 +52,14 @@ public class Pawn extends Piece {
             if (getCordinate().y() != 0) {
                 var leftDiagonal = getCordinate().leftDiagonalDown();
                 assert leftDiagonal != null;
-                if (board.getPiece(leftDiagonal) != null)
+                if (board.getPiece(leftDiagonal) != null && board.getPiece(leftDiagonal).getColor() != PieceColor.Black)
                     moves.add(leftDiagonal);
             }
 
             if (getCordinate().y() != 7) {
                 var rightDiagonal = getCordinate().rightDiagonalDown();
                 assert rightDiagonal != null;
-                if (board.getPiece(rightDiagonal) != null)
+                if (board.getPiece(rightDiagonal) != null && board.getPiece(rightDiagonal).getColor() != PieceColor.Black)
                     moves.add(rightDiagonal);
             }
         }
@@ -93,5 +93,10 @@ public class Pawn extends Piece {
         }
 
         return moves;
+    }
+
+    @Override
+    public boolean isKing() {
+        return false;
     }
 }

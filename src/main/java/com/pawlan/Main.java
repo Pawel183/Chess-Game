@@ -1,9 +1,12 @@
 package com.pawlan;
 
+import com.pawlan.gui.BoardGUI;
 import com.pawlan.gui.MainWindow;
 
 public class Main {
     public static void main(String[] args) {
-        MainWindow mainWindow = new MainWindow();
+        //MainWindow mainWindow = new MainWindow();
+
+        BoardGUI boardGUI = new BoardGUI("test", "test", 10.0);
     }
 }

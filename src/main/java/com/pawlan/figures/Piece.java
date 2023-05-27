@@ -17,10 +17,6 @@ public abstract class Piece {
         this.Image = icon;
     }
 
-    public boolean isWhite() {
-        return color == PieceColor.White;
-    }
-
     public PieceColor getColor() {
         return color;
     }
@@ -38,4 +34,6 @@ public abstract class Piece {
     public void setCordinate(Cordinate cordinate) {
         this.cordinate = cordinate;
     }
+
+    public abstract boolean isKing();
 }

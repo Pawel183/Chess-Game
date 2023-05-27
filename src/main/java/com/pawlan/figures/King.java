@@ -13,6 +13,10 @@ public class King extends Piece {
         super(cordinate, color, icon);
     }
 
+    public boolean isKing() {
+        return true;
+    }
+
     @Override
     public List<Cordinate> GetLegalMoves(Board board) {
         var moves = new ArrayList<Cordinate>();

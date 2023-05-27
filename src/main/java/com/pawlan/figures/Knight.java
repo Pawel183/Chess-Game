@@ -55,4 +55,9 @@ public class Knight extends Piece{
         return moves;
     }
 
+    @Override
+    public boolean isKing() {
+        return false;
+    }
+
 }
