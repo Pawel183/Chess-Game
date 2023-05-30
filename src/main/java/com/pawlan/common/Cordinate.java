@@ -2,8 +2,14 @@ package com.pawlan.common;
 
 import org.jetbrains.annotations.Nullable;
 
-public record Cordinate(int x, int y) {
+public class Cordinate {
+    private int x;
+    private int y;
 
+    public Cordinate(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
     public boolean isOutSideMap() {
         return x < 0 || x > 7 || y < 0 || y > 7;
     }
