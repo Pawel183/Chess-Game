@@ -10,14 +10,14 @@ public class MainWindow extends JFrame implements ActionListener {
     static final int screenHeight = 800;
 
     JLabel titleLabel = new JLabel("CHESS GAME");
-    JLabel playerOneNameLabel = new JLabel("Podaj nick pierwszego gracza: (Biały)");
+    JLabel playerOneNameLabel = new JLabel("Podaj nick: (Bialy)");
     JTextField playerOneNameTextField = new JTextField();
-    JLabel playerTwoNameLabel = new JLabel("Podaj nick drugiego gracza: (Czarny)");
+    JLabel playerTwoNameLabel = new JLabel("Podaj nick: (Czarny)");
     JTextField playerTwoNameTextField = new JTextField();
     JButton startButton = new JButton("Start Game");
     Double[] timeToPlay = {1.0, 3.0, 5.0, 10.0, 15.0, 30.0};
     JComboBox<Double> timerComboBox = new JComboBox<>(timeToPlay);
-    JLabel timerLabel = new JLabel("Wybierz ilość minut dla każdego gracza:");
+    JLabel timerLabel = new JLabel("Minuty dla kazdego gracza:");
 
     String playerOne = "Gracz 1";
     String playerTwo = "Gracz 2";
@@ -90,7 +90,7 @@ public class MainWindow extends JFrame implements ActionListener {
                 playerTwo = playerTwoNameTextField.getText();
             }
             this.dispose();
-            BoardGUI gui = new BoardGUI(playerOne, playerTwo, time);
+            new BoardGUI(playerOne, playerTwo, time);
         }
     }
 }

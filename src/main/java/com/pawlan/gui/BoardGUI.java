@@ -20,14 +20,14 @@ public class BoardGUI extends JFrame implements ActionListener {
     JLabel playerOneTimeLabel = new JLabel();
     JLabel playerTwoLabel = new JLabel();
     JLabel playerTwoTimeLabel = new JLabel();
-//    char[] alphabet = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
-    char[] alphabet = {'0', '1', '2', '3', '4', '5', '6', '7'};
+    char[] alphabet = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
+    //char[] alphabet = {'0', '1', '2', '3', '4', '5', '6', '7'};
 
     public BoardGUI(String playerOne, String playerTwo, Double time) {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(screenWidth, screenHeight);
         this.setLayout(null);
-        this.getContentPane().setBackground(new Color(42, 117, 42));
+        this.getContentPane().setBackground(new Color(120, 171, 120));
         this.setResizable(false);
 
         displayPlayerInfo(playerOne, playerTwo, time);
@@ -110,7 +110,7 @@ public class BoardGUI extends JFrame implements ActionListener {
     public void drawLegalMoves()
     {
         for (Cordinate cordinate : board.getLegalMoves()) {
-            boardsButtons[cordinate.x()][cordinate.y()].setBackground(new Color(238, 211, 147, 255));
+            boardsButtons[cordinate.x()][cordinate.y()].setBackground(new Color(187,203,43,255));
         }
     }
 
@@ -118,10 +118,10 @@ public class BoardGUI extends JFrame implements ActionListener {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if ((i % 2 == 0 && j % 2 != 0) || (i % 2 != 0 && j % 2 == 0)) {
-                    boardsButtons[i][j].setBackground(new Color(42, 77, 11));
+                    boardsButtons[i][j].setBackground(new Color(118,150,86,255));
                     boardsButtons[i][j].setBorderPainted(false);
                 } else {
-                    boardsButtons[i][j].setBackground(new Color(239, 233, 229));
+                    boardsButtons[i][j].setBackground(new Color(238,238,210,255));
                     boardsButtons[i][j].setBorderPainted(false);
                 }
             }
@@ -161,7 +161,7 @@ public class BoardGUI extends JFrame implements ActionListener {
             this.add(alphabetLabel2);
         }
 
-        int number = 0;
+        int number = 8;
 
         for (int i = 1; i < 9; i++) {
             JLabel numbersLabel = new JLabel();
@@ -178,7 +178,7 @@ public class BoardGUI extends JFrame implements ActionListener {
             numbersLabel2.setForeground(Color.BLACK);
             this.add(numbersLabel2);
 
-            number++;
+            number--;
         }
     }
 
