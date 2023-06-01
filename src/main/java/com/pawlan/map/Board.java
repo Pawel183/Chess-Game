@@ -16,9 +16,7 @@ public class Board {
     private final HashMap<Cordinate, Piece> Pieces = new HashMap<>();
     @Nullable private Piece selectedPiece = null;
     private List<Cordinate> legalMoves = new ArrayList<>();
-
     private PieceColor playerColor = PieceColor.White;
-
     public Board() {
         this.initBoard();
     }
@@ -119,7 +117,47 @@ public class Board {
             selectPiece(piece);
             legalMoves = piece.GetLegalMoves(this);
         }
+
+        if (piece != null && ((piece.getColor() == PieceColor.White && piece.getCordinate().x() == 0) ||
+                (piece.getColor() == PieceColor.Black && piece.getCordinate().x() == 7))) {
+            boolean whitePawnOnLastRow = false;
+            boolean blackPawnOnLastRow = false;
+
+            for (int x = 0; x < 8; x++) {
+                var pieceOnLastRow = getPiece(new Cordinate(x, 0));
+                if (pieceOnLastRow instanceof Pawn && pieceOnLastRow.getColor() == PieceColor.White) {
+                    whitePawnOnLastRow = true;
+                    break;
+                }
+            }
+
+            for (int x = 0; x < 8; x++) {
+                var pieceOnLastRow = getPiece(new Cordinate(x, 7));
+                if (pieceOnLastRow instanceof Pawn && pieceOnLastRow.getColor() == PieceColor.Black) {
+                    blackPawnOnLastRow = true;
+                    break;
+                }
+            }
+
+            if (whitePawnOnLastRow || blackPawnOnLastRow) {
+                promotion(piece);
+            }
+        }
     }
+
+    public void promotion(Piece pawn) {
+        Cordinate pawnCordinate = pawn.getCordinate();
+        Piece promotedPiece;
+        if (pawn.getColor() == PieceColor.White) {
+            promotedPiece = new Queen(pawnCordinate, pawn.getColor(), Assets.whiteQueen);
+        } else {
+            promotedPiece = new Queen(pawnCordinate, pawn.getColor(), Assets.blackQueen);
+        }
+
+        Pieces.remove(pawnCordinate);
+        Pieces.put(pawnCordinate, promotedPiece);
+    }
+
 
     public void selectPiece(@Nullable Piece piece) {
         selectedPiece = piece;
@@ -135,7 +173,7 @@ public class Board {
         Pieces.remove(attacker.getCordinate());
         attacker.setCordinate(targetCordinate);
         Pieces.put(targetCordinate, attacker);
-        Pieces.remove(target);
+        //Pieces.remove(target);
     }
 
     public void initBoard() {

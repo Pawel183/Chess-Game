@@ -23,9 +23,11 @@ public class Pawn extends Piece {
 
         if (getColor() == PieceColor.White && getCordinate().x() == startX_WHITE) {
             var up = getCordinate().up();
-            if (up != null) {
+            var up2 = getCordinate().up().up();
+            if (up != null && board.getPiece(up) == null) {
                 moves.add(up);
-                moves.add(up.up());
+                if (board.getPiece(up2) == null)
+                    moves.add(up.up());
             }
 
             if (getCordinate().y() != 0) {
@@ -44,9 +46,11 @@ public class Pawn extends Piece {
         }
         else if (getColor() == PieceColor.Black && getCordinate().x() == startX_BLACK) {
             var down = getCordinate().down();
-            if (down != null) {
+            var down2 = getCordinate().down().down();
+            if (down != null && board.getPiece(down) == null) {
                 moves.add(down);
-                moves.add(down.down());
+                if (board.getPiece(down2) == null)
+                    moves.add(down2);
             }
 
             if (getCordinate().y() != 0) {

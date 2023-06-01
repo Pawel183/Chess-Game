@@ -47,11 +47,11 @@ public class King extends Piece {
         var leftDiagonalUp = getCordinate().leftDiagonalUp();
         if (leftDiagonalUp != null) kingMovesCords.add(leftDiagonalUp);
 
-        for (Cordinate knightMove : kingMovesCords) {
-            if (knightMove != null) {
-                var currentPiece = board.getPiece(knightMove);
+        for (Cordinate kingMove : kingMovesCords) {
+            if (kingMove != null) {
+                var currentPiece = board.getPiece(kingMove);
                 if (currentPiece == null || currentPiece.getColor() != getColor()) {
-                    moves.add(knightMove);
+                    moves.add(kingMove);
                 }
             }
         }
