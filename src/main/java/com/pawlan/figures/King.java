@@ -6,8 +6,6 @@ import com.pawlan.map.Board;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
 public class King extends Piece {
 
     public King(Cordinate cordinate, PieceColor color, ImageIcon icon) {
@@ -46,36 +44,37 @@ public class King extends Piece {
             }
         }
 
-        var piece1 = board.getPiece(Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(getCordinate().left()).left()).left()));
-        var piece2 = board.getPiece(Objects.requireNonNull(Objects.requireNonNull(getCordinate().left()).left()));
-        var piece3 = board.getPiece(Objects.requireNonNull(getCordinate().left()));
-        var piece4 = board.getPiece(Objects.requireNonNull(Objects.requireNonNull(getCordinate().right()).right()));
-        var piece5 = board.getPiece(Objects.requireNonNull(getCordinate().right()));
+        if (!board.whiteKingMoved || !board.blackKingMoved) {
+            var piece1 = board.getPiece(getCordinate().left().left().left());
+            var piece2 = board.getPiece(getCordinate().left().left());
+            var piece3 = board.getPiece(getCordinate().left());
+            var piece4 = board.getPiece(getCordinate().right().right());
+            var piece5 = board.getPiece(getCordinate().right());
 
-        //Dluga roszada Białych
-        if (!board.whiteKingMoved && !board.rookA1Moved) {
-            if (piece1 == null && piece2 == null & piece3 == null)
-                moves.add(Objects.requireNonNull(getCordinate().left()).left());
+            //Dluga roszada Białych
+            if (!board.rookA1Moved) {
+                if (piece1 == null && piece2 == null & piece3 == null)
+                    moves.add(getCordinate().left().left());
+            }
+
+            //Krótka roszada białych
+            if (!board.rookA8Moved) {
+                if (piece4 == null && piece5 == null)
+                    moves.add(getCordinate().right().right());
+            }
+
+            //Długa roszada czarnych
+            if (!board.rookH1Moved) {
+                if (piece1 == null && piece2 == null & piece3 == null)
+                    moves.add(getCordinate().left().left());
+            }
+
+            //Krótka roszada czarnych
+            if (!board.rookH8Moved) {
+                if (piece4 == null && piece5 == null)
+                    moves.add(getCordinate().right().right());
+            }
         }
-
-        //Krótka roszada białych
-        if (!board.whiteKingMoved && !board.rookA8Moved) {
-            if (piece4 == null && piece5 == null)
-                moves.add(Objects.requireNonNull(getCordinate().right()).right());
-        }
-
-        //Długa roszada czarnych
-        if (!board.blackKingMoved && !board.rookH1Moved) {
-            if (piece1 == null && piece2 == null & piece3 == null)
-                moves.add(Objects.requireNonNull(getCordinate().left()).left());
-        }
-
-        //Krótka roszada czarnych
-        if (!board.blackKingMoved && !board.rookH8Moved) {
-            if (piece4 == null && piece5 == null)
-                moves.add(Objects.requireNonNull(getCordinate().right()).right());
-        }
-
         return moves;
     }
 }

@@ -8,7 +8,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 public class Board {
 
@@ -121,13 +120,13 @@ public class Board {
 
         if (piece == null && pieceIsSelected() && legalMoves.contains(cordinate)){        // Ruszenie figury
             if (selectedPiece instanceof King king) {
-                castle(king, cordinate);
-                System.out.println("test");
+                moveKing(king, cordinate);
             }
             else {
                 movePiece(cordinate);
             }
             checkIfRookOrKingMoved(selectedPiece);
+            selectPiece(null);
             switchPlayer();
             legalMoves.clear();
         }
@@ -137,60 +136,60 @@ public class Board {
             legalMoves = piece.GetLegalMoves(this);
         }
 
-        if (piece instanceof Pawn && ((piece.getColor() == PieceColor.White && piece.getCordinate().x() == 0) ||
-                (piece.getColor() == PieceColor.Black && piece.getCordinate().x() == 7))) {
+        if (piece instanceof Pawn && ((piece.getColor() == PieceColor.White && piece.getCordinate().x() == 0)
+                                  || (piece.getColor() == PieceColor.Black && piece.getCordinate().x() == 7))) {            // Promocja pionka
             boolean whitePawnOnLastRow = false;
             boolean blackPawnOnLastRow = false;
 
             for (int x = 0; x < 8; x++) {
-                var pieceOnLastRow = getPiece(new Cordinate(x, 0));
-                if (pieceOnLastRow instanceof Pawn && pieceOnLastRow.getColor() == PieceColor.White) {
+                var pieceOnLastRowWhite = getPiece(new Cordinate(x, 0));
+                var pieceOnLastRowBlack = getPiece(new Cordinate(x, 7));
+
+                if (pieceOnLastRowWhite instanceof Pawn && pieceOnLastRowWhite.getColor() == PieceColor.White) {
                     whitePawnOnLastRow = true;
-                    break;
                 }
-            }
 
-            for (int x = 0; x < 8; x++) {
-                var pieceOnLastRow = getPiece(new Cordinate(x, 7));
-                if (pieceOnLastRow instanceof Pawn && pieceOnLastRow.getColor() == PieceColor.Black) {
+                if (pieceOnLastRowBlack instanceof Pawn && pieceOnLastRowBlack.getColor() == PieceColor.Black) {
                     blackPawnOnLastRow = true;
-                    break;
                 }
-            }
 
-            if (whitePawnOnLastRow || blackPawnOnLastRow) {
-                promotion(piece);
+                if (whitePawnOnLastRow || blackPawnOnLastRow) {
+                    promotion(piece);
+                }
             }
         }
     }
 
-    public void castle(Piece king, Cordinate cordinate) {
-        if (!whiteKingMoved && !rookA1Moved && king.getColor() == PieceColor.White && cordinate.x() == 7 && cordinate.y() == 2) {        // Długa roszada biała
-            movePiece(cordinate);
-            rookToCastle = getPiece(Objects.requireNonNull(Objects.requireNonNull(cordinate.left()).left()));
+    public void castle(int y, Cordinate cordinate){
+        if (y == 2) {
+            rookToCastle = getPiece(cordinate.left().left());       //Długa
             moveRookCastle(cordinate.right());
+        } else if (y == 6) {
+            rookToCastle = getPiece(cordinate.right());             //Krótka
+            moveRookCastle(cordinate.left());
+        }
+    }
+
+    public void moveKing(Piece king, Cordinate cordinate) {
+        int x = cordinate.x();
+        int y = cordinate.y();
+        movePiece(cordinate);
+
+        if (king.getColor() == PieceColor.White && !whiteKingMoved && (!rookA1Moved || !rookA8Moved) && x == 7) {        //Roszada biała
+            castle(y, cordinate);
             whiteKingMoved = true;
             rookA8Moved = true;
-        } else if (!whiteKingMoved && !rookA8Moved && king.getColor() == PieceColor.White && cordinate.x() == 7 && cordinate.y() == 6) { // Krótka roszada biała
-            movePiece(cordinate);
-            rookToCastle = getPiece(Objects.requireNonNull(cordinate.right()));
-            moveRookCastle(cordinate.left());
-            whiteKingMoved = true;
             rookA1Moved = true;
-        } else if (!blackKingMoved && !rookH1Moved && king.getColor() == PieceColor.Black && cordinate.x() == 0 && cordinate.y() == 2) { // Długa roszada czarna
-            movePiece(cordinate);
-            rookToCastle = getPiece(Objects.requireNonNull(Objects.requireNonNull(cordinate.left()).left()));
-            moveRookCastle(cordinate.right());
-            blackKingMoved = true;
-            rookH8Moved = true;
-        } else if (!blackKingMoved && !rookH8Moved && king.getColor() == PieceColor.Black && cordinate.x() == 0 && cordinate.y() == 6) { // Krótka roszada czarna
-            movePiece(cordinate);
-            rookToCastle = getPiece(Objects.requireNonNull(cordinate.right()));
-            moveRookCastle(cordinate.left());
+        } else if (king.getColor() == PieceColor.Black && !blackKingMoved && (!rookH1Moved || !rookH8Moved) && x == 0) { //Roszada czarna
+            castle(y, cordinate);
             blackKingMoved = true;
             rookH1Moved = true;
-        } else {
-            movePiece(cordinate);               // Inny ruch króla
+            rookH8Moved = true;
+        } else {                                            // Inny ruch króla
+            if (king.getColor() == PieceColor.White)
+                whiteKingMoved = true;
+            else
+                blackKingMoved = true;
         }
     }
 
